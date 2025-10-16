@@ -41,4 +41,6 @@ class AuthController {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.clear();
   }
+
+  static Future<void> updateUserData(model) async {}
 }

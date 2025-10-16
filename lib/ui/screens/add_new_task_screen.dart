@@ -90,9 +90,9 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
 
   Future<void> _addNewTask() async {
     _addNewTaskInProgress = true;
-    setState(() {});
+    if (mounted) setState(() {});
 
-    Map<String, dynamic> requestBody = {
+    final Map<String, dynamic> requestBody = {
       "title": _titleTEController.text.trim(),
       "description": _descriptionTEController.text.trim(),
       "status": "New",
@@ -104,11 +104,12 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
     );
 
     _addNewTaskInProgress = false;
-    setState(() {});
+    if (mounted) setState(() {});
 
     if (response.isSuccess) {
       _clearTextFields();
-      showSnackBarMessage(context, 'New task has been added');
+      // এখানে পপ করে true পাঠান -> NewTaskScreen অটো রিলোড করবে
+      if (mounted) Navigator.pop(context, true);
     } else {
       showSnackBarMessage(context, response.errorMessage!);
     }

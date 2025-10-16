@@ -27,6 +27,9 @@ class Urls {
   static String updateTaskStatusUrl(String id, String newStatus) =>
       '$_baseUrl/updateTaskStatus/$id/$newStatus';
 
+  //update profile
+  static const String updateProfileUrl = '$_baseUrl/ProfileUpdate';
+
   // Delete Task
   static String deleteTaskUrl(String id) => '$_baseUrl/deleteTask/$id';
 
@@ -37,12 +40,12 @@ class Urls {
         '${Uri.encodeComponent(password)}';
   }
 
-  // POST endpoints (body JSON)
+  // POST endpoints
 
   static String recoverResetPassPost() => '$_baseUrl/RecoverResetPass';
   static String recoverResetPasswordPost() => '$_baseUrl/RecoverResetPassword';
 
-  // GET endpoints (path params)
+  // GET endpoints
   static String recoverResetPassGet(
     String email,
     String otp,

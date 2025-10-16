@@ -126,10 +126,17 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     );
   }
 
-  void _onTapAddNewTaskButton() {
-    Navigator.push(
+  Future<void> _onTapAddNewTaskButton() async {
+    final bool? shouldReload = await Navigator.push<bool>(
       context,
       MaterialPageRoute(builder: (context) => const AddNewTaskScreen()),
     );
+
+    if (shouldReload == true) {
+      _getAllTaskStatusCount();
+      _getAllNewTasks();
+
+      showSnackBarMessage(context, 'New task added');
+    }
   }
 }
