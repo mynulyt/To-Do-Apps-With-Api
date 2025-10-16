@@ -76,7 +76,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     replacement: CenteredProgressIndecator(),
                     child: FilledButton(
                       onPressed: _onTapLoginButton,
-                      child: Icon(Icons.arrow_circle_right_outlined),
+                      style: FilledButton.styleFrom(
+                        backgroundColor: Colors.purple,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.all(12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Icon(Icons.arrow_circle_right_outlined),
                     ),
                   ),
                   const SizedBox(height: 36),

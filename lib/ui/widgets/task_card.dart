@@ -19,58 +19,66 @@ class TaskCard extends StatefulWidget {
 }
 
 class _TaskCardState extends State<TaskCard> {
-  bool _operationInProgress = false; // status change or delete
+  bool _operationInProgress = false;
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      tileColor: Colors.white,
-      title: Text(widget.taskModel.title),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 4),
-          Text(widget.taskModel.description),
-          SizedBox(height: 4),
-          Text(
-            'Date: ${widget.taskModel.createdDate}',
-            style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black),
-          ),
-          SizedBox(height: 8),
-          Row(
-            children: [
-              Chip(
-                label: Text(widget.taskModel.status),
-                backgroundColor: Colors.blue,
-                labelStyle: TextStyle(color: Colors.white),
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24),
-                ),
+    return Card(
+      elevation: 6,
+      shadowColor: Colors.black54,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: ListTile(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        tileColor: Colors.white,
+        title: Text(widget.taskModel.title),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 4),
+            Text(widget.taskModel.description),
+            SizedBox(height: 4),
+            Text(
+              'Date: ${widget.taskModel.createdDate}',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
               ),
-              Spacer(),
-              _operationInProgress
-                  ? SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : Row(
-                      children: [
-                        IconButton(
-                          onPressed: _showDeleteDialog,
-                          icon: Icon(Icons.delete, color: Colors.grey),
-                        ),
-                        IconButton(
-                          onPressed: _showChangeStatusDialog,
-                          icon: Icon(Icons.edit, color: Colors.grey),
-                        ),
-                      ],
-                    ),
-            ],
-          ),
-        ],
+            ),
+            SizedBox(height: 8),
+            Row(
+              children: [
+                Chip(
+                  label: Text(widget.taskModel.status),
+                  backgroundColor: Colors.purpleAccent,
+                  labelStyle: TextStyle(color: Colors.white),
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                ),
+                Spacer(),
+                _operationInProgress
+                    ? SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : Row(
+                        children: [
+                          IconButton(
+                            onPressed: _showDeleteDialog,
+                            icon: Icon(Icons.delete, color: Colors.grey),
+                          ),
+                          IconButton(
+                            onPressed: _showChangeStatusDialog,
+                            icon: Icon(Icons.edit, color: Colors.grey),
+                          ),
+                        ],
+                      ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -117,7 +125,6 @@ class _TaskCardState extends State<TaskCard> {
     }
   }
 
-  // ------------------- Delete Task -------------------
   void _showDeleteDialog() {
     showDialog(
       context: context,

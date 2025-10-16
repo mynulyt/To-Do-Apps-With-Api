@@ -60,6 +60,14 @@ class _ForgotPasswordVerifyEmailScreenState
                   width: double.infinity,
                   child: FilledButton.icon(
                     onPressed: _loading ? null : _sendOtp,
+                    style: FilledButton.styleFrom(
+                      backgroundColor: Colors.purple,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.all(12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
                     icon: _loading
                         ? const SizedBox(
                             width: 18,

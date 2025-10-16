@@ -24,7 +24,7 @@ class _TMAppBarState extends State<TMAppBar> {
     final profilePhoto = AuthController.userModel!.photo;
 
     return AppBar(
-      backgroundColor: Colors.green,
+      backgroundColor: Colors.purpleAccent,
       title: GestureDetector(
         onTap: () {
           if (widget.fromUpdateProfile ?? false) {

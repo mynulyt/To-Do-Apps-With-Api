@@ -107,6 +107,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     replacement: CenteredProgressIndecator(),
                     child: FilledButton(
                       onPressed: _onTapSubmitButton,
+                      style: FilledButton.styleFrom(
+                        backgroundColor: Colors.purple,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.all(12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
                       child: Icon(Icons.arrow_circle_right_outlined),
                     ),
                   ),

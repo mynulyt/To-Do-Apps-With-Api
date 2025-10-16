@@ -13,7 +13,7 @@ class TaskCountByStatusCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 0,
+      elevation: 2,
       color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),

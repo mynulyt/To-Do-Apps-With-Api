@@ -57,6 +57,14 @@ class _ForgotPasswordVerifyOtpScreenState
                 width: double.infinity,
                 child: FilledButton(
                   onPressed: _loading ? null : _verifyOtp,
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Colors.purple,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.all(12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
                   child: _loading
                       ? const SizedBox(
                           width: 18,
