@@ -64,30 +64,54 @@ class ApiCaller {
     Map<String, dynamic>? body,
   }) async {
     try {
-      Uri uri = Uri.parse(url);
+      final uri = Uri.parse(url);
 
       _logRequest(url, body: body);
-      Response response = await post(
+      final response = await post(
         uri,
         headers: {
           'content-type': 'application/json',
+          'accept': 'application/json', // ensure server returns JSON
           'token': AuthController.accessToken ?? '',
         },
-        body: jsonEncode(body),
+        body: jsonEncode(body ?? {}),
       );
       _logResponse(url, response);
 
       final int statusCode = response.statusCode;
+      final contentType = (response.headers['content-type'] ?? '')
+          .toLowerCase();
 
+      dynamic decoded;
+      if (contentType.contains('application/json')) {
+        try {
+          decoded = jsonDecode(response.body.isEmpty ? '{}' : response.body);
+        } catch (_) {
+          decoded = null; // don't throw FormatException for HTML/text
+        }
+      }
+
+      // SUCCESS (must be JSON)
       if (statusCode == 200 || statusCode == 201) {
-        // SUCCESS
-        final decodedData = jsonDecode(response.body);
-        return ApiResponse(
-          isSuccess: true,
-          responseCode: statusCode,
-          responseData: decodedData,
-        );
-      } else if (statusCode == 401) {
+        if (decoded != null) {
+          return ApiResponse(
+            isSuccess: true,
+            responseCode: statusCode,
+            responseData: decoded,
+          );
+        } else {
+          return ApiResponse(
+            isSuccess: false,
+            responseCode: statusCode,
+            responseData: null,
+            errorMessage:
+                'Unexpected response format from server (expected JSON, got ${contentType.split(";").first}).',
+          );
+        }
+      }
+
+      // UNAUTHORIZED
+      if (statusCode == 401) {
         await _moveToLogin();
         return ApiResponse(
           isSuccess: false,
@@ -95,14 +119,28 @@ class ApiCaller {
           errorMessage: 'Un-authorize',
           responseData: null,
         );
-      } else {
-        // FAILED
-        final decodedData = jsonDecode(response.body);
+      }
+
+      // OTHER FAILURES
+      if (decoded != null) {
         return ApiResponse(
           isSuccess: false,
           responseCode: statusCode,
-          responseData: decodedData,
-          errorMessage: decodedData['data'],
+          responseData: decoded,
+          errorMessage: decoded is Map && decoded['data'] != null
+              ? decoded['data'].toString()
+              : 'Request failed with status $statusCode.',
+        );
+      } else {
+        final preview = response.body.length > 160
+            ? '${response.body.substring(0, 160)}…'
+            : response.body;
+        return ApiResponse(
+          isSuccess: false,
+          responseCode: statusCode,
+          responseData: null,
+          errorMessage:
+              'Request failed with status $statusCode (non-JSON). Body: $preview',
         );
       }
     } on Exception catch (e) {
